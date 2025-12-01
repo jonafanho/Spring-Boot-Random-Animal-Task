@@ -30,7 +30,7 @@ class AnimalService {
 	/**
 	 * Starts the service. Synchronized must be used to avoid race conditions.
 	 */
-	synchronized void start() {
+	synchronized boolean start() {
 		if (repeatScheduledFuture == null || repeatScheduledFuture.isCancelled()) {
 			repeatScheduledFuture = scheduler.scheduleAtFixedRate({
 				int index
@@ -40,20 +40,31 @@ class AnimalService {
 				} while (index == previousIndex)
 
 				previousIndex = index
-				template.convertAndSend("/topic/words", WORDS[index])
+				template.convertAndSend("/topic/animals", WORDS[index])
 			}, REPEAT_DURATION)
 			println("Animal service started")
 		}
+
+		return true
 	}
 
 	/**
 	 * Not required, but helps with testing.
 	 */
-	synchronized void stop() {
+	synchronized boolean stop() {
 		if (repeatScheduledFuture != null && !repeatScheduledFuture.isCancelled()) {
 			repeatScheduledFuture.cancel(true)
 			repeatScheduledFuture = null
 			println("Animal service stopped")
 		}
+
+		return false
+	}
+
+	/**
+	 * @return whether the service is running
+	 */
+	synchronized boolean status() {
+		return repeatScheduledFuture != null
 	}
 }

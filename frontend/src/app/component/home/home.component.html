@@ -1,0 +1,11 @@
+<div class="column gap">
+  <div class="row gap">
+    <button matButton="filled" (click)="start()" [disabled]="running() || loading()">Start</button>
+    <button matButton="filled" (click)="stop()" [disabled]="!running() || loading()">Stop</button>
+    @if (loading()) {
+      <mat-spinner [diameter]="32"/>
+    }
+  </div>
+  <div>{{ errorMessage() }}</div>
+  <div>{{ animal() }}</div>
+</div>

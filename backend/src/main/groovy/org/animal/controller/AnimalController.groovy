@@ -1,11 +1,15 @@
 package org.animal.controller
 
+import org.animal.Main
 import org.animal.service.AnimalService
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+// For debugging locally
+@CrossOrigin(origins = Main.CROSS_ORIGIN)
 @RequestMapping("/api")
 class AnimalController {
 
@@ -21,8 +25,7 @@ class AnimalController {
 	 */
 	@GetMapping("/start")
 	boolean start() {
-		animalService.start()
-		return true
+		return animalService.start()
 	}
 
 	/**
@@ -31,7 +34,14 @@ class AnimalController {
 	 */
 	@GetMapping("/stop")
 	boolean stop() {
-		animalService.stop()
-		return true
+		return animalService.stop()
+	}
+
+	/**
+	 * @return whether the service is running
+	 */
+	@GetMapping("/status")
+	boolean status() {
+		return animalService.status()
 	}
 }
