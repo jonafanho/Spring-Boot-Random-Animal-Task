@@ -18,6 +18,18 @@ jobs:
       - name: Make gradle wrapper executable
         working-directory: backend
         run: chmod +x ./gradlew
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Setup Node packages
+        run: npm ci
+      - name: Lint files
+        run: npm run lint
+      - name: Test project
+        run: npm run test --watch=false
+      - name: Build project
+        run: npm run build
       - name: Build Groovy
         working-directory: backend
         run: ./gradlew build --no-daemon
