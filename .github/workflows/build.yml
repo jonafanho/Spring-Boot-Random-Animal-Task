@@ -23,13 +23,13 @@ jobs:
         with:
           node-version: 24
       - name: Setup Node packages
-        run: npm ci
+        run: npm ci --prefix frontend
       - name: Lint files
-        run: npm run lint
+        run: npm run lint --prefix frontend
       - name: Test project
-        run: npm run test --watch=false
+        run: npm run test --watch=false --prefix frontend
       - name: Build project
-        run: npm run build
+        run: npm run build --prefix frontend
       - name: Build Groovy
         working-directory: backend
         run: ./gradlew build --no-daemon
